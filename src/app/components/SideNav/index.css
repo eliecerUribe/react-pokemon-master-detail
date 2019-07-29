@@ -1,0 +1,13 @@
+.menu-list .selected {
+  background-color: #00d1b2;
+  color: #fff;
+}
+
+.menu-list .selected:hover {
+  background-color: #00d1b2;
+  color: #fff;
+}
+
+.side-nav-item {
+  margin-left: 8px;
+}

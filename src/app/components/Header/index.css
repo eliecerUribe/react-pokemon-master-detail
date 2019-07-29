@@ -1,0 +1,23 @@
+.navbar-container .navbar-menu.is-active {
+  display: flex;
+  justify-content: space-between;
+}
+
+.hero.is-primary .navbar-menu.is-active {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  background: hsla(0, 0%, 97%, 0.98);
+  z-index: 45;
+  height: 100%;
+  opacity: 0.9;
+}
+
+.navbar-item a {
+  color: #000;
+}
+
+.navbar-item .selected {
+  background-color: #00d1b2;
+  color: #fff;
+}
