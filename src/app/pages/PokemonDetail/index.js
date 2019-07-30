@@ -4,6 +4,10 @@ import axios from 'axios';
 
 import { capitalizeString } from '../../utils';
 
+import loading from '../../assets/images/loading.gif';
+
+import './index.css';
+
 const URL_POKEAPI = 'https://pokeapi.co/api/v2/pokemon';
 
 class PokemonDetail extends Component {
@@ -22,10 +26,12 @@ class PokemonDetail extends Component {
     const {
       data: { id, sprites, species }
     } = await axios.get(`${URL_POKEAPI}/${name}`);
-   
+
     const specie = await axios.get(`${species.url}`);
-    const description = specie.data.flavor_text_entries.filter((flavor) => flavor.language.name === 'en');
-    
+    const description = specie.data.flavor_text_entries.filter(
+      flavor => flavor.language.name === 'en'
+    );
+
     this.setState({
       id,
       name,
@@ -48,6 +54,20 @@ class PokemonDetail extends Component {
     this.getPokemon(params.name);
   };
 
+  componentDidUpdate({ location: { pathname } }) {
+    if (this.props.location.pathname !== pathname) {
+      const {
+        match: { params }
+      } = this.props;
+
+      this.setState({ isLoading: true });
+      setTimeout(() => {
+        this.getPokemon(params.name);
+        
+      }, 500);
+    }
+  }
+
   render() {
     const {
       name,
@@ -60,8 +80,8 @@ class PokemonDetail extends Component {
     } = this.state;
     return (
       <div>
-        <Title isSize={1}>{capitalizeString(name)}</Title>
-        {isLoading && <h1>Loading...</h1>}
+        {isLoading && <span className="spinner"><img src={loading} alt="spinner" />Loading...</span>}
+        {!isLoading && <span><Title isSize={1}>{capitalizeString(name)}</Title>
         <span>
           <img src={frontShinyImg} alt={name} />
         </span>
@@ -74,7 +94,7 @@ class PokemonDetail extends Component {
         <span>
           <img src={backDefaultImg} alt={name} />
         </span>
-        <p>{description}</p>
+        <p>{description}</p></span>}
       </div>
     );
   }
