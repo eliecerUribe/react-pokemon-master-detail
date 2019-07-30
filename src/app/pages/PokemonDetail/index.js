@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Title } from 'bloomer';
+import { Title, Button, Columns, Column, Field, Control } from 'bloomer';
 import axios from 'axios';
 
 import { capitalizeString } from '../../utils';
 
 import loading from '../../assets/images/loading.gif';
-
 import './index.css';
 
 const URL_POKEAPI = 'https://pokeapi.co/api/v2/pokemon';
@@ -63,7 +62,6 @@ class PokemonDetail extends Component {
       this.setState({ isLoading: true });
       setTimeout(() => {
         this.getPokemon(params.name);
-        
       }, 500);
     }
   }
@@ -80,21 +78,44 @@ class PokemonDetail extends Component {
     } = this.state;
     return (
       <div>
-        {isLoading && <span className="spinner"><img src={loading} alt="spinner" />Loading...</span>}
-        {!isLoading && <span><Title isSize={1}>{capitalizeString(name)}</Title>
-        <span>
-          <img src={frontShinyImg} alt={name} />
-        </span>
-        <span>
-          <img src={backShinyImg} alt={name} />
-        </span>
-        <span>
-          <img src={frontDefaultImg} alt={name} />
-        </span>
-        <span>
-          <img src={backDefaultImg} alt={name} />
-        </span>
-        <p>{description}</p></span>}
+        {isLoading && (
+          <span className="spinner">
+            <img src={loading} alt="spinner" />
+            Loading...
+          </span>
+        )}
+        {!isLoading && (
+          <span>
+            <Columns>
+              <Column hasTextAlign="left">
+                <Title isSize={1}>{capitalizeString(name)}</Title>
+              </Column>
+              <Column hasTextAlign="right">
+                <Field isGrouped>
+                  <Control>
+                    <Button isColor="primary">Add</Button>
+                  </Control>
+                  <Control>
+                    <Button>Remove</Button>
+                  </Control>
+                </Field>
+              </Column>
+            </Columns>
+            <span>
+              <img src={frontShinyImg} alt={name} />
+            </span>
+            <span>
+              <img src={backShinyImg} alt={name} />
+            </span>
+            <span>
+              <img src={frontDefaultImg} alt={name} />
+            </span>
+            <span>
+              <img src={backDefaultImg} alt={name} />
+            </span>
+            <p>{description}</p>
+          </span>
+        )}
       </div>
     );
   }
