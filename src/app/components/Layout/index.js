@@ -9,7 +9,7 @@ import './index.css';
 const Layout = ({ children }) => {
   return (
     <React.Fragment>
-      <Header title="React" subtitle="An amazing scaffold with bulma :)" />
+      <Header title="Pokémon" subtitle="Fav your pocket monsters" />
       <Columns isCentered>
         <Column isSize="1/4">
           <SideNav />
