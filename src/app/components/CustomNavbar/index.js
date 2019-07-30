@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Navbar,
   NavbarMenu,
@@ -7,28 +7,64 @@ import {
   NavbarBurger,
   NavbarBrand
 } from 'bloomer';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import useOpen from '../../customHooks/useOpen';
 import CustomNavbarItem from './CustomNavbarItem';
+import { fetchPokemons } from '../../redux/module/pokemon';
+import { capitalizeString } from '../../utils';
 
-const CustomNavbar = ({ title }) => {
-  const { isOpen, toggle } = useOpen();
+class CustomNavbar extends Component {
+  state = {
+    isOpen: false
+  };
 
-  return (
-    <Navbar>
-      <NavbarBrand>
-        <NavbarItem>{title}</NavbarItem>
-        <NavbarBurger isActive={isOpen} onClick={toggle} />
-      </NavbarBrand>
-      <NavbarMenu isActive={isOpen} onClick={toggle}>
-        <NavbarStart>
-          <CustomNavbarItem path="/home" icon="home" title="Home" />
-          <CustomNavbarItem path="/users" icon="user" title="Users" />
-          <CustomNavbarItem path="/lists" icon="list" title="Lists" />
-        </NavbarStart>
-      </NavbarMenu>
-    </Navbar>
-  );
-};
+  toggle = () => {
+    this.setState({ isOpen: !this.state.isOpen });
+  };
 
-export default CustomNavbar;
+  render() {
+    const { isLoading, error, pokemons, foundPokemon, title } = this.props;
+    const { isOpen } = this.state;
+
+    return (
+      <Navbar>
+        <NavbarBrand>
+          <NavbarItem>{title}</NavbarItem>
+          <NavbarBurger isActive={isOpen} onClick={this.toggle} />
+        </NavbarBrand>
+        <NavbarMenu isActive={isOpen} onClick={this.toggle}>
+          <NavbarStart>
+            {!isLoading &&
+            !error &&
+            foundPokemon &&
+            foundPokemon.hasOwnProperty('id') ? (
+              <CustomNavbarItem
+                path={'/pokemon/' + foundPokemon.name}
+                title={capitalizeString(foundPokemon.name)}
+              />
+            ) : (
+              pokemons.map((pokemon, index) => (
+                <CustomNavbarItem
+                  key={index}
+                  path={'/pokemon/' + pokemon.name}
+                  title={capitalizeString(pokemon.name)}
+                />
+              ))
+            )}
+          </NavbarStart>
+        </NavbarMenu>
+      </Navbar>
+    );
+  }
+}
+
+const mapStateToProps = ({ pokemons }) => ({ ...pokemons });
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ fetchPokemons }, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CustomNavbar);
