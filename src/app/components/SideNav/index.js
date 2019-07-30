@@ -14,16 +14,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { fetchPokemons } from '../../redux/module/pokemon';
+import {capitalizeString} from '../../utils';
 
 import './index.css';
 class SideNav extends Component {
   componentDidMount = () => {
     this.props.fetchPokemons();
-  };
-
-  capitalizeString = (string) => {
-    if (typeof string !== 'string') return '';
-    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   render() {
@@ -49,8 +45,8 @@ class SideNav extends Component {
               <li key={index}>
                 <MenuLink
                   render={props => (
-                    <NavLink {...props} activeClassName="selected" to="/home">
-                      <span className="side-nav-item">{this.capitalizeString(pokemon.name)}</span>
+                    <NavLink {...props} activeClassName="selected" to={'/pokemon/' + pokemon.name}>
+                      <span className="side-nav-item">{capitalizeString(pokemon.name)}</span>
                     </NavLink>
                   )}
                 />
