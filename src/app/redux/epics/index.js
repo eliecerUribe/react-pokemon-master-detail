@@ -5,14 +5,16 @@ import { ofType } from 'redux-observable';
 import {
   GET_POKEMONS,
   GET_POKEMON,
-  FAV_POKEMON
+  FAV_POKEMON,
+  REMOVE_POKEMON
 } from '../../constants/actionNames';
 import {
   fetchPokemonsSuccess,
   fetchPokemonsFailure,
   fetchPokemonSuccess,
   fetchPokemonFailure,
-  favPokemonFulfilled
+  favPokemonFulfilled,
+  removePokemonFulfilled
 } from '../module/pokemon';
 
 const URL = 'https://pokeapi.co/api/v2/pokemon';
@@ -44,6 +46,13 @@ export const fetchPokemonEpic = action$ => {
 export const favPokemonEpic = action$ => {
   return action$.pipe(
     ofType(FAV_POKEMON),
-    map((action) => favPokemonFulfilled(action.payload))
+    map(action => favPokemonFulfilled(action.payload))
+  );
+};
+
+export const removePokemonEpic = action$ => {
+  return action$.pipe(
+    ofType(REMOVE_POKEMON),
+    map(action => removePokemonFulfilled(action.payload))
   );
 };

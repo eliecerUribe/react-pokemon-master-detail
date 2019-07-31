@@ -9,7 +9,9 @@ import {
   GET_POKEMON_SUCCESS,
   GET_POKEMON_FAILURE,
   FAV_POKEMON,
-  FAV_POKEMON_FULFILLED
+  FAV_POKEMON_FULFILLED,
+  REMOVE_POKEMON,
+  REMOVE_POKEMON_FULFILLED
 } from '../../constants/actionNames';
 
 const INITIAL_STATE = {
@@ -38,11 +40,14 @@ const pokemons = (state = INITIAL_STATE, action = {}) => {
     case FAV_POKEMON:
       return { ...state, isLoading: true};
     case FAV_POKEMON_FULFILLED:
-      const newPokemon = action.payload;
-      const found = state.favsPokemons.find((pokemon) => pokemon.id === newPokemon.id);
-
+      const found = state.favsPokemons.find((pokemon) => pokemon.id === action.payload.id);
       if(found === undefined) state.favsPokemons.push(action.payload)
-      return { ...state, favsPokemons: state.favsPokemons, isLoading: false }
+      return { ...state, favsPokemons: state.favsPokemons, isLoading: false };
+    case REMOVE_POKEMON:
+      return { ...state, isLoading: true};
+    case REMOVE_POKEMON_FULFILLED:
+      const pokemons = state.favsPokemons.filter((pokemon) => pokemon.id !== action.payload.id);
+      return { ...state, favsPokemons: pokemons, isLoading: false };
     default:
       return state;
   }
@@ -83,9 +88,19 @@ export const fetchPokemonFailure = message => ({
 export const favPokemon = pokemon => ({
   type: FAV_POKEMON,
   payload: pokemon
-})
+});
 
 export const favPokemonFulfilled = pokemon => ({
   type: FAV_POKEMON_FULFILLED,
   payload: pokemon
-})
+});
+
+export const removePokemon = pokemon => ({
+  type: REMOVE_POKEMON,
+  payload: pokemon
+});
+
+export const removePokemonFulfilled = pokemon => ({
+  type: REMOVE_POKEMON_FULFILLED,
+  payload: pokemon
+});

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { capitalizeString } from '../../utils';
-import { favPokemon } from '../../redux/module/pokemon';
+import { favPokemon, removePokemon } from '../../redux/module/pokemon';
 
 import loading from '../../assets/images/loading.gif';
 import './index.css';
@@ -56,6 +56,10 @@ class PokemonDetail extends Component {
 
   favPokemon = () => {
     this.props.favPokemon(this.state);
+  }
+
+  removePokemon = () => {
+    this.props.removePokemon(this.state);
   }
 
   componentDidMount = () => {
@@ -113,7 +117,9 @@ class PokemonDetail extends Component {
                     >Add</Button>
                   </Control>
                   <Control>
-                    <Button>Remove</Button>
+                    <Button
+                      onClick={this.removePokemon}
+                    >Remove</Button>
                   </Control>
                 </Field>
               </Column>
@@ -141,7 +147,7 @@ class PokemonDetail extends Component {
 const mapStateToProps = ({ pokemons }) => ({ ...pokemons });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ favPokemon }, dispatch);
+  bindActionCreators({ favPokemon, removePokemon }, dispatch);
 
 export default connect(
   mapStateToProps,
