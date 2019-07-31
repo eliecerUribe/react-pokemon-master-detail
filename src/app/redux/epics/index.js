@@ -2,12 +2,17 @@ import { ajax } from 'rxjs/ajax';
 import { mergeMap, map, of, catchError } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 
-import { GET_POKEMONS, GET_POKEMON } from '../../constants/actionNames';
+import {
+  GET_POKEMONS,
+  GET_POKEMON,
+  FAV_POKEMON
+} from '../../constants/actionNames';
 import {
   fetchPokemonsSuccess,
   fetchPokemonsFailure,
   fetchPokemonSuccess,
-  fetchPokemonFailure
+  fetchPokemonFailure,
+  favPokemonFulfilled
 } from '../module/pokemon';
 
 const URL = 'https://pokeapi.co/api/v2/pokemon';
@@ -16,7 +21,7 @@ export const fetchPokemonsEpic = action$ => {
   return action$.pipe(
     ofType(GET_POKEMONS),
     mergeMap(() => {
-      return ajax.getJSON(`${URL}/?limit=10`).pipe(
+      return ajax.getJSON(`${URL}/?limit=15`).pipe(
         map(response => fetchPokemonsSuccess(response.results)),
         catchError(error => of(fetchPokemonsFailure(error.message)))
       );
@@ -33,5 +38,12 @@ export const fetchPokemonEpic = action$ => {
         catchError(error => of(fetchPokemonFailure(error.message)))
       );
     })
+  );
+};
+
+export const favPokemonEpic = action$ => {
+  return action$.pipe(
+    ofType(FAV_POKEMON),
+    map((action) => favPokemonFulfilled(action.payload))
   );
 };

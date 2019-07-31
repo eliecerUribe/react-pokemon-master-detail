@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Title, Button, Columns, Column, Field, Control } from 'bloomer';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { capitalizeString } from '../../utils';
+import { favPokemon } from '../../redux/module/pokemon';
 
 import loading from '../../assets/images/loading.gif';
 import './index.css';
@@ -43,6 +46,10 @@ class PokemonDetail extends Component {
 
     this.setState({ isLoading: false });
   };
+
+  favPokemon = () => {
+    this.props.favPokemon(this.state);
+  }
 
   componentDidMount = () => {
     const {
@@ -93,7 +100,10 @@ class PokemonDetail extends Component {
               <Column hasTextAlign="right">
                 <Field isGrouped>
                   <Control>
-                    <Button isColor="primary">Add</Button>
+                    <Button
+                      isColor="primary"
+                      onClick={this.favPokemon}
+                    >Add</Button>
                   </Control>
                   <Control>
                     <Button>Remove</Button>
@@ -121,4 +131,12 @@ class PokemonDetail extends Component {
   }
 }
 
-export default PokemonDetail;
+const mapStateToProps = ({ pokemons }) => ({ ...pokemons });
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ favPokemon }, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PokemonDetail);

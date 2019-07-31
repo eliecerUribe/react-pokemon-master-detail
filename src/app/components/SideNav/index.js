@@ -21,7 +21,7 @@ class SideNav extends Component {
       <Menu isHidden="mobile">
         <MenuList>
           <InputSearch />
-          <MenuLabel>Top 10 Pokémons</MenuLabel>
+          <MenuLabel>Top 15 Pokémons</MenuLabel>
           {isLoading && <h1>Loading pokémons</h1>}
           {error && <h1>{error}</h1>}
           {(!isLoading && !error && foundPokemon && foundPokemon.hasOwnProperty('id')) ? (

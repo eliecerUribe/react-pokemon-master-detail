@@ -1,10 +1,11 @@
 import { combineEpics } from 'redux-observable';
 import { combineReducers } from 'redux';
-import pokemons, { fetchPokemonsEpic, fetchPokemonEpic } from './pokemon';
+import pokemons, { fetchPokemonsEpic, fetchPokemonEpic, favPokemonEpic } from './pokemon';
 
 export const rootEpic = combineEpics(
   fetchPokemonsEpic,
-  fetchPokemonEpic
+  fetchPokemonEpic,
+  favPokemonEpic
 );
 
 export const rootReducer = combineReducers({
