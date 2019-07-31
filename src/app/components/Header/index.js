@@ -5,8 +5,11 @@ import {
   Container,
   Title,
   Subtitle,
-  HeroHeader
+  HeroHeader,
+  Columns,
+  Column
 } from 'bloomer';
+import { NavLink } from 'react-router-dom';
 
 import CustomNavbar from '../CustomNavbar';
 
@@ -20,8 +23,15 @@ const Header = ({ title, subtitle }) => {
       </HeroHeader>
       <HeroBody isHidden="mobile">
         <Container isFluid>
-          <Title>{title}</Title>
-          <Subtitle isHidden="mobile">{subtitle}</Subtitle>
+          <Columns>
+            <Column>
+              <Title>{title}</Title>
+              <Subtitle isHidden="mobile">{subtitle}</Subtitle>
+            </Column>
+            <Column hasTextAlign="right">
+              <NavLink to="/favorites">Go to Fav Pokémons</NavLink>
+            </Column>
+          </Columns>
         </Container>
       </HeroBody>
     </Hero>

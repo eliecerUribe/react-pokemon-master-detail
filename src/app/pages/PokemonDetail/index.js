@@ -11,6 +11,7 @@ import loading from '../../assets/images/loading.gif';
 import './index.css';
 
 const URL_POKEAPI = 'https://pokeapi.co/api/v2/pokemon';
+const URL_PLAY = 'http://play.pokemonshowdown.com/sprites/xyani'
 
 class PokemonDetail extends Component {
   state = {
@@ -21,12 +22,14 @@ class PokemonDetail extends Component {
     frontDefaultImg: '',
     backDefaultImg: '',
     description: '',
+    weight: '',
+    gif: '',
     isLoading: false
   };
 
   getPokemon = async name => {
     const {
-      data: { id, sprites, species }
+      data: { id, sprites, species, weight }
     } = await axios.get(`${URL_POKEAPI}/${name}`);
 
     const specie = await axios.get(`${species.url}`);
@@ -34,9 +37,13 @@ class PokemonDetail extends Component {
       flavor => flavor.language.name === 'en'
     );
 
+    const gif = `${URL_PLAY}/${name}.gif`
+
     this.setState({
       id,
-      name,
+      weight,
+      gif,
+      name: capitalizeString(name),
       frontShinyImg: sprites.front_shiny,
       backShinyImg: sprites.back_shiny,
       frontDefaultImg: sprites.front_default,

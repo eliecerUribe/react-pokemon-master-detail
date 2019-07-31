@@ -1,0 +1,6 @@
+.favs-pokemons-container .card-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 96px;
+}
